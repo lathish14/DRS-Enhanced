@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Ant build file for drs-common (shared models + protocol).
+    Tier 0 of the DRS-Enhanced three-tier system.
+    Build this project FIRST: it produces dist/drs-common.jar, which the
+    server and client projects depend on.
+-->
+<project name="drs-common" default="build" basedir=".">
+    <description>DRS-Enhanced shared library (models + protocol)</description>
+    <import file="nbproject/build-impl.xml"/>
+</project>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+
+<!--
+    Login Screen - DRS-Enhanced (client tier)
+    Centered split layout: form on left half, image on right half.
+    Demo hint box removed - users register via the Register screen.
+-->
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="drs.client.controller.LoginController"
+            prefWidth="1280" prefHeight="800">
+
+    <top>
+        <HBox styleClass="navbar" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <StackPane styleClass="nav-logo-box">
+                    <Label styleClass="nav-logo-symbol" text="&#9888;"/>
+                </StackPane>
+                <Label styleClass="nav-brand-text"
+                       text="Disaster&#10;Response&#10;System"/>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox alignment="CENTER" spacing="32">
+                <Button styleClass="nav-link" text="HOME" onAction="#goHome"/>
+                <Button styleClass="nav-link" text="ABOUT US"
+                        onAction="#showAboutUs"/>
+                <Button styleClass="nav-link" text="CONTACT"
+                        onAction="#showContact"/>
+                <Button styleClass="nav-link" text="REGISTER"
+                        onAction="#goRegister"/>
+                <Button styleClass="nav-link-active" text="LOG IN"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox>
+            <StackPane HBox.hgrow="ALWAYS" styleClass="split-pane-left">
+                <VBox alignment="CENTER" spacing="0" maxWidth="400">
+
+                    <Label styleClass="form-title" text="Log in"
+                           style="-fx-font-size:32px;">
+                        <VBox.margin><Insets bottom="28"/></VBox.margin>
+                    </Label>
+
+                    <!-- Error box -->
+                    <VBox fx:id="errorBox" styleClass="error-box"
+                          managed="false" visible="false" prefWidth="360">
+                        <Label fx:id="errorLabel" styleClass="error-label"
+                               wrapText="true"
+                               text="Invalid username or password."/>
+                        <VBox.margin><Insets bottom="12"/></VBox.margin>
+                    </VBox>
+
+                    <TextField fx:id="usernameField" styleClass="drs-input"
+                               promptText="Username" prefWidth="360"
+                               onAction="#handleLogin">
+                        <VBox.margin><Insets bottom="12"/></VBox.margin>
+                    </TextField>
+
+                    <PasswordField fx:id="passwordField" styleClass="drs-input"
+                                   promptText="Password" prefWidth="360"
+                                   onAction="#handleLogin">
+                        <VBox.margin><Insets bottom="20"/></VBox.margin>
+                    </PasswordField>
+
+                    <Button fx:id="loginBtn" styleClass="btn-primary"
+                            text="Log In" prefWidth="360"
+                            onAction="#handleLogin">
+                        <VBox.margin><Insets bottom="16"/></VBox.margin>
+                    </Button>
+
+                    <!-- Create account link -->
+                    <HBox alignment="CENTER" prefWidth="360">
+                        <Label style="-fx-font-size:13px;
+                                      -fx-text-fill:#6B6B8A;"
+                               text="Don't have an account?  "/>
+                        <Label styleClass="link-label"
+                               text="Create one"
+                               onMouseClicked="#goSignUp"/>
+                    </HBox>
+
+                </VBox>
+            </StackPane>
+
+            <!-- RIGHT: photo -->
+            <StackPane prefWidth="640" minWidth="400"
+                       style="-fx-background-color:#1A1A2E;">
+                <ImageView fitWidth="640" fitHeight="800"
+                           preserveRatio="false" smooth="true">
+                    <image>
+                        <Image url="@images/login_photo.jpg"
+                               backgroundLoading="true"/>
+                    </image>
+                </ImageView>
+            </StackPane>
+
+        </HBox>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+
+<!--
+    Report Disaster Screen - DRS-Enhanced (client tier)
+-->
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="drs.client.controller.ReportController"
+            prefWidth="1280" prefHeight="800">
+
+    <top>
+        <HBox styleClass="navbar" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <StackPane styleClass="nav-logo-box">
+                    <Label styleClass="nav-logo-symbol" text="&#9888;"/>
+                </StackPane>
+                <Label styleClass="nav-brand-text"
+                       text="Disaster&#10;Response&#10;System"/>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox alignment="CENTER" spacing="32">
+                <Button styleClass="nav-link" text="HOME" onAction="#goHome"/>
+                <Button styleClass="nav-link-active" text="LOG IN"
+                        onAction="#goHome"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox>
+            <StackPane HBox.hgrow="ALWAYS" styleClass="split-pane-left">
+                <VBox alignment="CENTER" spacing="0" maxWidth="420">
+
+                    <Label styleClass="section-title" text="Report Disaster">
+                        <VBox.margin><Insets bottom="20"/></VBox.margin>
+                    </Label>
+
+                    <ComboBox fx:id="disasterTypeCombo" styleClass="drs-combo"
+                              promptText="Disaster Type" prefWidth="380">
+                        <VBox.margin><Insets bottom="12"/></VBox.margin>
+                    </ComboBox>
+
+                    <TextField fx:id="locationField" styleClass="drs-input"
+                               promptText="Location" prefWidth="380">
+                        <VBox.margin><Insets bottom="16"/></VBox.margin>
+                    </TextField>
+
+                    <TextArea fx:id="descriptionArea" styleClass="drs-textarea"
+                              promptText="Description" prefWidth="380"
+                              prefRowCount="4" wrapText="true">
+                        <VBox.margin><Insets bottom="16"/></VBox.margin>
+                    </TextArea>
+
+                    <TextField fx:id="reporterNameField" styleClass="drs-input"
+                               promptText="Your name" prefWidth="380"
+                               managed="false" visible="false">
+                        <VBox.margin><Insets bottom="16"/></VBox.margin>
+                    </TextField>
+
+                    <VBox fx:id="errorBox" styleClass="error-box"
+                          managed="false" visible="false" prefWidth="380">
+                        <Label fx:id="errorLabel" styleClass="error-label"
+                               wrapText="true"
+                               text="Please fill in all required fields."/>
+                        <VBox.margin><Insets bottom="10"/></VBox.margin>
+                    </VBox>
+
+                    <VBox fx:id="successBox" styleClass="success-box"
+                          managed="false" visible="false" prefWidth="380">
+                        <Label fx:id="successLabel" styleClass="success-label"
+                               wrapText="true"
+                               text="Disaster reported successfully!"/>
+                        <VBox.margin><Insets bottom="10"/></VBox.margin>
+                    </VBox>
+
+                    <Button fx:id="submitBtn" styleClass="btn-primary"
+                            text="Submit Report" prefWidth="380"
+                            onAction="#handleSubmit">
+                        <VBox.margin><Insets bottom="14"/></VBox.margin>
+                    </Button>
+
+                    <HBox alignment="CENTER_LEFT" prefWidth="380">
+                        <Label fx:id="backLink" styleClass="link-label"
+                               text="Back to Dashboard"
+                               managed="false" visible="false"
+                               onMouseClicked="#goToDashboard"/>
+                    </HBox>
+
+                </VBox>
+            </StackPane>
+
+            <StackPane prefWidth="640" minWidth="400"
+                       style="-fx-background-color:#2C2C2C;">
+                <ImageView fitWidth="640" fitHeight="800"
+                           preserveRatio="false" smooth="true">
+                    <image>
+                        <Image url="@images/report_photo.jpg"
+                               backgroundLoading="true"/>
+                    </image>
+                </ImageView>
+            </StackPane>
+
+        </HBox>
+    </center>
+
+</BorderPane>

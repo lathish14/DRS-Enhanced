@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="drs-client-impl" basedir="..">
+
+    <property file="nbproject/private/private.properties"/>
+    <property file="nbproject/project.properties"/>
+
+    <property name="javafx.lib.abs" location="${basedir}/${javafx.sdk.path}/lib"/>
+    <property name="libs.abs"       location="${basedir}/${libs.path}"/>
+
+    <path id="javafx.classpath">
+        <fileset dir="${javafx.lib.abs}" includes="*.jar"/>
+    </path>
+    <path id="libs.classpath">
+        <fileset dir="${libs.abs}" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${build.test.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}"
+               encoding="UTF-8" debug="true" includeantruntime="false"
+               source="${javac.source}" target="${javac.target}">
+            <classpath>
+                <path refid="javafx.classpath"/>
+                <path refid="libs.classpath"/>
+            </classpath>
+            <compilerarg value="--module-path"/>
+            <compilerarg value="${javafx.lib.abs}"/>
+            <compilerarg value="--add-modules"/>
+            <compilerarg value="javafx.controls,javafx.fxml"/>
+        </javac>
+        <copy todir="${build.classes.dir}">
+            <fileset dir="${src.dir}" excludes="**/*.java"/>
+        </copy>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar destfile="${dist.jar}" basedir="${build.classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="build" depends="jar"/>
+
+    <target name="run" depends="compile">
+        <java classname="${main.class}" fork="true">
+            <classpath>
+                <pathelement path="${build.classes.dir}"/>
+                <path refid="javafx.classpath"/>
+                <path refid="libs.classpath"/>
+            </classpath>
+            <jvmarg value="--module-path"/>
+            <jvmarg value="${javafx.lib.abs}"/>
+            <jvmarg value="--add-modules"/>
+            <jvmarg value="javafx.controls,javafx.fxml"/>
+            <jvmarg value="-Djava.library.path=${javafx.lib.abs}"/>
+        </java>
+    </target>
+
+    <target name="default" depends="run"/>
+
+</project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Ant build file for drs-server (multi-threaded socket server + MySQL).
+    Tier 2 of the DRS-Enhanced three-tier system.
+    Depends on drs-common.jar (in libs/). Run target starts the server,
+    which creates the MySQL schema/tables programmatically on first launch.
+-->
+<project name="drs-server" default="run" basedir=".">
+    <description>DRS-Enhanced server tier (sockets + MySQL DAO/service)</description>
+    <import file="nbproject/build-impl.xml"/>
+</project>

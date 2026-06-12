@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Ant build file for drs-client (JavaFX GUI).
+    Tier 1 of the DRS-Enhanced three-tier system.
+    Depends on drs-common.jar (in libs/) and the JavaFX SDK (in javafx-sdk/).
+    Start the drs-server project FIRST, then run this client.
+-->
+<project name="drs-client" default="run" basedir=".">
+    <description>DRS-Enhanced client tier (JavaFX + SceneBuilder FXML)</description>
+    <import file="nbproject/build-impl.xml"/>
+</project>

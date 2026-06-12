@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<!--
+    Main Dashboard - DRS-Enhanced
+    Three-tier client view. Table columns are built in MainController so the
+    FXML stays free of property-name coupling. Includes the live alert banner
+    (Feature 2) and the Resources & Dispatch tab (Feature 1).
+-->
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="drs.client.controller.MainController"
+            prefWidth="1280" prefHeight="800">
+
+    <!-- Top: navbar + live alert banner -->
+    <top>
+        <VBox>
+            <HBox styleClass="navbar" alignment="CENTER_LEFT" spacing="14">
+                <padding><Insets top="10" right="20" bottom="10" left="20"/></padding>
+                <StackPane styleClass="nav-logo-box">
+                    <Label styleClass="nav-logo-symbol" text="&#9888;"/>
+                </StackPane>
+                <Label styleClass="nav-brand-inline"
+                       text="Disaster Response System"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="userLabel" styleClass="nav-user"
+                       text="Signed in"/>
+                <Button fx:id="reportNewBtn" styleClass="btn-secondary"
+                        text="Report Disaster" onAction="#handleReportNew"/>
+                <Button fx:id="logoutBtn" styleClass="btn-logout"
+                        text="Log Out" onAction="#handleLogout"/>
+            </HBox>
+
+            <!-- Live alert banner (Feature 2): hidden until an alert arrives -->
+            <HBox fx:id="alertBanner" styleClass="alert-banner"
+                  alignment="CENTER_LEFT" spacing="12"
+                  managed="false" visible="false">
+                <padding><Insets top="10" right="20" bottom="10" left="20"/></padding>
+                <Label styleClass="alert-banner-icon" text="&#128276;"/>
+                <Label fx:id="alertBannerLabel" styleClass="alert-banner-text"
+                       text="" wrapText="true" HBox.hgrow="ALWAYS"/>
+                <Button styleClass="alert-banner-dismiss" text="Dismiss"
+                        onAction="#handleDismissAlert"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Center: tabbed work area -->
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+
+            <!-- Tab 1: Disasters & Response -->
+            <Tab text="Disasters &amp; Response">
+                <VBox spacing="12">
+                    <padding><Insets top="16" right="20" bottom="16" left="20"/></padding>
+                    <Label styleClass="section-title" text="Active Disasters"/>
+                    <TableView fx:id="disastersTable" prefHeight="320"/>
+
+                    <Label styleClass="sub-title"
+                           text="Respond to selected disaster"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Severity (1-10):"/>
+                        <TextField fx:id="severityField" prefWidth="70"
+                                   promptText="1-10"/>
+                        <Button fx:id="assessBtn" styleClass="btn-primary"
+                                text="Assess" onAction="#handleAssess"/>
+                        <Separator orientation="VERTICAL"/>
+                        <Button fx:id="notifyBtn" styleClass="btn-primary"
+                                text="Notify Departments"
+                                onAction="#handleNotify"/>
+                        <Separator orientation="VERTICAL"/>
+                        <Label text="Status:"/>
+                        <ComboBox fx:id="statusCombo" prefWidth="170"/>
+                        <Button fx:id="updateStatusBtn" styleClass="btn-primary"
+                                text="Update Status"
+                                onAction="#handleUpdateStatus"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="refreshDisastersBtn"
+                                styleClass="btn-secondary"
+                                text="Refresh" onAction="#handleRefreshDisasters"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- Tab 2: Resources & Dispatch (Enhanced Feature 1) -->
+            <Tab text="Resources &amp; Dispatch">
+                <VBox spacing="12">
+                    <padding><Insets top="16" right="20" bottom="16" left="20"/></padding>
+                    <Label styleClass="section-title"
+                           text="Resource &amp; Dispatch Management"/>
+                    <Label fx:id="selectedDisasterLabel" styleClass="hint-text"
+                           text="Select a disaster on the first tab, then a resource below, to dispatch."/>
+                    <Label styleClass="sub-title" text="Available resources"/>
+                    <TableView fx:id="resourcesTable" prefHeight="240"/>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Units to dispatch:"/>
+                        <TextField fx:id="unitsField" prefWidth="80"
+                                   promptText="qty"/>
+                        <Button fx:id="dispatchBtn" styleClass="btn-primary"
+                                text="Dispatch to Selected Disaster"
+                                onAction="#handleDispatch"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="refreshResourcesBtn"
+                                styleClass="btn-secondary"
+                                text="Refresh" onAction="#handleRefreshResources"/>
+                    </HBox>
+
+                    <Label styleClass="sub-title"
+                           text="Dispatch history for selected disaster"/>
+                    <TableView fx:id="dispatchTable" prefHeight="180"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button fx:id="recallBtn" styleClass="btn-secondary"
+                                text="Recall Selected Dispatch"
+                                onAction="#handleRecall"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- Tab 3: Departments -->
+            <Tab text="Departments">
+                <VBox spacing="12">
+                    <padding><Insets top="16" right="20" bottom="16" left="20"/></padding>
+                    <Label styleClass="section-title" text="Departments"/>
+                    <TableView fx:id="departmentsTable" prefHeight="420"/>
+                    <HBox>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button styleClass="btn-secondary" text="Refresh"
+                                onAction="#handleRefreshDepartments"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- Tab 4: Audit Log -->
+            <Tab text="Audit Log">
+                <VBox spacing="12">
+                    <padding><Insets top="16" right="20" bottom="16" left="20"/></padding>
+                    <Label styleClass="section-title" text="Response Audit Log"/>
+                    <TableView fx:id="logsTable" prefHeight="420"/>
+                    <HBox>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button styleClass="btn-secondary" text="Refresh"
+                                onAction="#handleRefreshLogs"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- Tab 5: Statistics -->
+            <Tab text="Statistics">
+                <VBox spacing="14">
+                    <padding><Insets top="16" right="20" bottom="16" left="20"/></padding>
+                    <Label styleClass="section-title"
+                           text="Statistics Dashboard"/>
+                    <FlowPane fx:id="statsPane" hgap="16" vgap="16"/>
+                    <Label styleClass="sub-title" text="Disasters by type"/>
+                    <TextArea fx:id="statsByTypeArea" editable="false"
+                              prefRowCount="6" wrapText="true"/>
+                    <HBox>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button styleClass="btn-secondary" text="Refresh"
+                                onAction="#handleRefreshStats"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- Tab 6: Users (admin only) -->
+            <Tab fx:id="usersTab" text="Users">
+                <VBox spacing="12">
+                    <padding><Insets top="16" right="20" bottom="16" left="20"/></padding>
+                    <Label styleClass="section-title" text="User Management"/>
+                    <TableView fx:id="usersTable" prefHeight="260"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button fx:id="toggleActiveBtn" styleClass="btn-secondary"
+                                text="Activate / Deactivate Selected"
+                                onAction="#handleToggleActive"/>
+                    </HBox>
+
+                    <Label styleClass="sub-title" text="Add a new user"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="newFullName" promptText="Full name"/>
+                        <TextField fx:id="newUsername" promptText="Username"/>
+                        <TextField fx:id="newPassword" promptText="Password"/>
+                        <ComboBox fx:id="newRole" promptText="Role"/>
+                        <TextField fx:id="newDept" promptText="Department"/>
+                        <Button fx:id="addUserBtn" styleClass="btn-primary"
+                                text="Add User" onAction="#handleAddUser"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+        </TabPane>
+    </center>
+
+</BorderPane>
